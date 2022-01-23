@@ -1,26 +1,57 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Drug;
+use App\Student_info;
 use App\User;
 use App\Patient;
 use App\Prescription;
 use App\Prescription_drug;
 use App\Prescription_test;
 use App\Test;
+use App\Models\Prescription_info;
 use Redirect;
 use PDF;
+use Illuminate\Support\Facades\DB;
+
 class PrescriptionController extends Controller{
     
 
-   
+    public function submitData(Request $req){
+        // return $req->all();
+        $prescription_info= new Prescription_info;
+        $prescription_info->std_id=$req->studentid;
+        $prescription_info->name=$req->name;
+        $prescription_info->age=$req->age;
+        $prescription_info->faculty=$req->faculty;
+        $prescription_info->medicine_name= implode(",",$req->medicine_name);
+        $prescription_info->feeding_rules= implode(",",$req->feeding_rules);
+        $prescription_info->feed_days= implode(",",$req->feed_days);
+        $prescription_info->time= implode(",",$req->trade_name);
+        $prescription_info->test=$req->test;
+       
+        $prescription_info->save();
+        return back()->with('success','Data added success fully');
+
+    }
 
     public function create(){
     	$drugs = Drug::all();
         $patients = User::where('role','patient')->get();
         $tests = Test::all();
     	return view('prescription.create',['drugs' => $drugs, 'patients' => $patients, 'tests' => $tests]);
+    }
+    
+    public function get_student_history(Request $request){
+        $id = $request->id; 
+        $student_infos = DB::table('student_infos')->where('id',$id)->get(); // it will get the entire table
+        $prescription_infos = DB::table('prescription_infos')->where('std_id',$id)->get(); // it will get the entire table
+        $data = array();
+        $data['student_infos'] = $student_infos;
+        $data['prescription_infos'] = $prescription_infos;
+        return json_encode($data);
     }
 
     public function patients_info(){
@@ -32,12 +63,11 @@ class PrescriptionController extends Controller{
     
     public function store(Request $request){
 
+
 	    	 $validatedData = $request->validate([
-	        	'patient_id' => ['required','exists:users,id'],
-	        	'type.*' => 'required',
-	        	'strength.*' => 'required',
-	        	'dose.*' => 'required',
-	        	'duration.*' => 'required',
+                'medicine_name.*' => 'required',
+	        	'feeding_rules.*' => 'required',
+                'feed_days.*' => 'required',
 	        	'trade_name.*' => 'required',
 	    	]);
 

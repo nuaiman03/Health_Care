@@ -24,26 +24,15 @@ class MedicineController extends Controller
     
 
     public function store(Request $request)
-    {
-        // return "hello world";
-        // return $request->all();
-        // $request->validate([
-        //     'medicine_name' => 'required',
-        //     'medicine_power' => 'required',
-        //     'company' => 'required',
-        //     'group' => 'required',
-        //     'expire_date' => 'required',
-        //     'amount' => 'required',
-        // ]);
-      
+    {   
       $success=   Medicine::create($request->all());
-if($success){
+        if($success){
 
-    return redirect()->route('medicine.index')
-    ->with('success','Medicine created successfully');
-}else{
-    exit;
-}
+            return redirect()->route('medicine.index')
+            ->with('success','Medicine created successfully');
+        }else{
+            exit;
+        }
     }
 
    
@@ -51,7 +40,6 @@ if($success){
 
     public function show(Medicine $medicine)
     {
-
         $medicine = Medicine::latest()->paginate(5);
         $myname = "fahim";
         return view('medicine.medicine-list',with(compact('medicine')));
@@ -72,9 +60,6 @@ if($success){
 
     public function update(Request $request, Medicine $medicine)
     {
-        // $request->valideate([
-
-        // ]);
         $medicine->update($request->all());
 
         return redirect()->route('medicine.index')

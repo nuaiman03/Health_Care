@@ -17,9 +17,6 @@
                         <span class="input-group-text">Medicine Power</span>
                         <input type="text" class="form-control" name="medicine_power" placeholder="500..." aria-label="Last name">
                     </div>
-                    
-                    
-                        
                 </div>
 
 
@@ -61,7 +58,6 @@
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center btn-sm">
                     <button class="btn btn-primary me-md-3" type="submit">Submit</button>
-                   
                 </div>
             </div>
         </form>    
