@@ -221,7 +221,7 @@ $("#historybutton").click(function(){   // var id = $(this).serialize();
       document.getElementById("age").value= data.student_infos[i].age;
       document.getElementById("faculty").value= data.student_infos[i].faculty;
       document.getElementById("studentid").value= id;     
-     
+            
 
 }
 
